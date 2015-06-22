@@ -3,7 +3,7 @@
   <Objects>
     <Object name_suffix="0" base_name="Root" name_space="__global__" type="Object" pickable="0" visible="1">
       <Object name_suffix="0" base_name="Headlight" name_space="__global__" type="Light" pickable="0" visible="1" ambient="0.3 0.3 0.3 1" beacon="Headlight_beacon" diffuse="1 1 1 1" lightType="point" on="1" shadow="0" shadowColor="0.1 0.1 0.1 1" shadowType="4096" specular="0.1 0.1 0.1 1">
-        <Object name_suffix="0" base_name="Default" name_space="__global__" type="Camera" pickable="0" visible="1" from="0 0 3" at="0 0 2" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" accept_root="1" near="0.1" far="250" aspect="1" fov="1.0472">
+        <Object name_suffix="0" base_name="Default" name_space="__global__" type="Camera" pickable="0" visible="1" from="-0.440694 2.26307 1.61282" at="-1.34018 0.509475 1.67754" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="0" accept_root="1" near="0.1" far="250" aspect="1" fov="1.0472">
           <Object name_suffix="0" base_name="Headlight_beacon" name_space="__global__" type="LightBeacon" pickable="0" visible="1" from="0 0 0" at="0 0 -1" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" light="Headlight"/>
         </Object>
       </Object>
@@ -11,12 +11,164 @@
   </Objects>
   <Rendering frustum_culling="1" occlusion_culling="0" two_sided="1"/>
   <Scripts>
+    <Script name_suffix="0" base_name="Construction" name_space="__script__" type="Python" mobile="">
+      <core>
+	import VR
+	
+	s = 0.1
+	d = 0.1
+	kit = VR.ConstructionKit()
+	at = kit.addAnchorType(s*0.1, [1,0,0])
+	
+	r = VR.getRoot()
+	t28 = r.find('ShapeIndexedFaceSet.28')
+	t1 = r.find('ShapeIndexedFaceSet.1')
+	t29 = r.find('ShapeIndexedFaceSet.29')
+	t4 = r.find('ShapeIndexedFaceSet')
+	t19 = r.find('ShapeIndexedFaceSet.36')
+	
+	for t in [t4,t1,t19,t28,t29]:
+		t.setPickable(True)
+		kit.addObject(t)
+	
+	kit.addObjectAnchor(t28, at, [-0.00138, -0.00065, 0.10694], d*0.3)
+	kit.addObjectAnchor(t1, at, [-0.00122, -0.00065, 0.05019], d*0.3)
+	
+	kit.addObjectAnchor(t1, at,[-0.00122,-0.00065,-0.05181], d*0.3)
+	kit.addObjectAnchor(t29, at,[-0.00266,-0.00032,-0.11346],d*0.3)
+	
+	kit.addObjectAnchor(t1, at,[-0.03472,-0.00065,0.01819],d*0.3)
+	kit.addObjectAnchor(t19, at,[-0.11759,0.00111,0.02366],d*0.3)
+	kit.addObjectAnchor(t1, at,[-0.03472,-0.00065,-0.02181],d*0.3)
+	kit.addObjectAnchor(t19, at,[-0.11759,0.00111,-0.01634],d*0.3)
+	
+	kit.addObjectAnchor(t1, at,[0.03228,-0.00065,0.01819],d*0.3)
+	kit.addObjectAnchor(t4, at,[0.1101,-0.00089,0.01699],d*0.3)
+	kit.addObjectAnchor(t1, at,[0.03228,-0.00065,-0.02181],d*0.3)
+	kit.addObjectAnchor(t4, at,[0.1101,-0.00089,-0.01968],d*0.3)
+	
+</core>
+    </Script>
     <Script name_suffix="0" base_name="init" name_space="__script__" type="Python" mobile="">
       <core>
 	import VR
 	
+	r = VR.getRoot().find('Headlight')
+	
+	werkstatt = VR.loadGeometry('models/Werkstatt.dae')
+	wasserstrahl = VR.loadGeometry('models/Wasserstrahl.dae')
+	penha = VR.loadGeometry('models/penha_flach.dae', True)
+	penhazwei = VR.loadGeometry('models/penha_flach2.dae', True)
+	
+	werkstatt.setPose([0,0,0],[0,-1,0],[0,0,1])
+	wasserstrahl.setPose([2.5,0.53,2],[0,-1,0],[0,0,-1])
+	penhazwei.setPose([2.3,0.55,1.9],[0,-1,0],[0,0,1])
+	#penha.setPose([-1.1,0.53,2],[0,-1,0],[0,0,1])
+	penha.setFrom([-1.1,0.53,2])
+	
+	
+	werkstatt.setScale([0.25,0.25,0.25])
+	wasserstrahl.setScale([0.1,0.1,0.1])
+	penhazwei.setScale([0.18,0.18,0.18])
+	#penha.setScale([0.1,0.1,0.1])
+	
+	
+	r.addChild(werkstatt)
+	r.addChild(wasserstrahl)
+	r.addChild(penha)
+	r.addChild(penhazwei)
 	
 </core>
+      <trig type="on_scene_load" dev="" state="Pressed" param="" key="0" name_suffix="0" base_name="trigger" name_space="__global__"/>
+    </Script>
+    <Script name_suffix="0" base_name="klick" name_space="__script__" type="Python" mobile="">
+      <core>
+	import VR
+	name = ""
+	p = dev.getIntersection()
+	print p
+	if dev.getIntersected():
+		name = dev.getIntersected().getName()
+		f = dev.getIntersected().getWorldFrom()
+		pl = [ p[i] - f[i] for i in range(3) ]
+		print name,pl
+	
+	if name == 'Plane.9':
+		if VR.pstate &gt;= 0:
+			VR.pstate = -1
+		else:
+			VR.pstate = 0
+	
+</core>
+      <trig type="on_device" dev="mouse" state="Pressed" param="" key="0" name_suffix="1" base_name="trigger" name_space="__global__"/>
+    </Script>
+    <Script name_suffix="0" base_name="path" name_space="__script__" type="Python" mobile="">
+      <core>
+	import VR
+	
+	platte = VR.getRoot().find('Plane.9')
+	platte.setFrom([-9.16, 7.6, 2.2])
+	
+	obj = VR.getRoot().find('Wasserstrahl.dae')
+	
+	VR.p1 = VR.Path()
+	VR.p2 = VR.Path()
+	VR.p3 = VR.Path()
+	VR.p4 = VR.Path()
+	VR.p5 = VR.Path()
+	
+	VR.p1.addPoint([2.55,0.53,2.1],[-1,0,0],[0,0,0],[0,1,0])
+	VR.p1.addPoint([2.4,0.53,2.1],[-1,0,0],[0,0,0],[0,1,0])
+	VR.p1.addPoint([2.4,0.53,2],[0,0,0],[0,0,0],[0,1,0])
+	VR.p1.addPoint([2.55,0.53,2],[1,0,0],[0,0,0],[0,1,0])
+	VR.p1.addPoint([2.55,0.53,2.1],[-1,0,0],[0,0,0],[0,1,0])
+	VR.p1.compute(30)
+	
+	VR.p2.addPoint([2.35,0.53,2.1] ,[-1.0,0],[0,0,0],[0,1,0])
+	VR.p2.addPoint([2.2,0.53,2.1] ,[-1.0,0],[0,0,0],[0,1,0])
+	VR.p2.addPoint([2.2,0.53,2] ,[-1.0,0],[0,0,0],[0,1,0])
+	VR.p2.addPoint([2.35,0.53,2] ,[-1.0,0],[0,0,0],[0,1,0])
+	VR.p2.addPoint([2.35,0.53,2.1] ,[-1.0,0],[0,0,0],[0,1,0])
+	VR.p2.compute(30)
+	
+	VR.p3.addPoint([2.15,0.53,2.1] ,[-1.0,0],[0,0,0],[0,1,0])
+	VR.p3.addPoint([2.04,0.53,2.06] ,[-1.0,0],[0,0,0],[0,1,0])
+	VR.p3.addPoint([2.02,0.53,1.98] ,[-1.0,0],[0,0,0],[0,1,0])
+	VR.p3.addPoint([2.15,0.53,2] ,[-1.0,0],[0,0,0],[0,1,0])
+	VR.p3.addPoint([2.15,0.53,2.1] ,[-1.0,0],[0,0,0],[0,1,0])
+	VR.p3.compute(30)
+	
+	VR.p4.addPoint([2.515,0.53,1.91],[-1,0,0],[0,0,0],[0,1,0])
+	VR.p4.addPoint([2.33,0.53,1.91],[-1,0,0],[0,0,0],[0,1,0])
+	VR.p4.addPoint([2.445,0.53,1.705],[-1,0,0],[0,0,0],[0,1,0])
+	VR.p4.addPoint([2.51,0.53,1.765],[-1,0,0],[0,0,0],[0,1,0])
+	VR.p4.addPoint([2.515,0.53,1.91],[-1,0,0],[0,0,0],[0,1,0])
+	VR.p4.compute(30)
+
+	VR.p5.addPoint([2.269,0.53,1.9],[-1,0,0],[0,0,0],[0,1,0])
+	VR.p5.addPoint([2.09,0.53,1.9],[-1,0,0],[0,0,0],[0,1,0])
+	VR.p5.addPoint([2.21,0.53,1.705],[-1,0,0],[0,0,0],[0,1,0])
+	VR.p5.addPoint([2.27,0.53,1.767],[-1,0,0],[0,0,0],[0,1,0])
+	VR.p5.addPoint([2.269,0.53,1.9],[-1,0,0],[0,0,0],[0,1,0])
+	VR.p5.compute(30)
+	
+	s = 6
+				
+	obj.animate(VR.p1, s, 0, False)
+	obj.animate(VR.p2, s, s, False)
+	obj.animate(VR.p3, s, 2*s, False)
+	obj.animate(VR.p4, s, 3*s, False)
+	obj.animate(VR.p5, s, 4*s, False)
+	
+	VR.pp = VR.Path()
+	VR.pp.addPoint([-9.16, 7.6, 2.2],[0,-1,0],[0,0,0],[1,0,0])
+	VR.pp.addPoint([-9.16, 7.6, 2.18],[0,-1,0],[0,0,0],[1,0,0])
+	VR.pp.compute(30)
+	platte.animate(VR.pp, 2, 5*s, False)
+	
+</core>
+      <trig type="on_scene_load" dev="" state="Pressed" param="" key="0" name_suffix="3" base_name="trigger" name_space="__global__"/>
+      <trig type="on_device" dev="mouse" state="Pressed" param="" key="0" name_suffix="4" base_name="trigger" name_space="__global__"/>
     </Script>
   </Scripts>
   <Sockets/>
