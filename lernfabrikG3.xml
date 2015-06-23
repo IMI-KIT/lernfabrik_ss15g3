@@ -2,14 +2,17 @@
 <Scene name_suffix="0" base_name="lernfabrikG3" name_space="Scene">
   <Objects>
     <Object name_suffix="0" base_name="Root" name_space="__global__" type="Object" pickable="0" visible="1">
-      <Object name_suffix="0" base_name="Headlight" name_space="__global__" type="Light" pickable="0" visible="1" ambient="0.3 0.3 0.3 1" beacon="Headlight_beacon" diffuse="1 1 1 1" lightType="point" on="1" shadow="0" shadowColor="0.1 0.1 0.1 1" shadowType="4096" specular="0.1 0.1 0.1 1">
-        <Object name_suffix="0" base_name="Default" name_space="__global__" type="Camera" pickable="0" visible="1" from="-0.941501 0.812383 1.78803" at="-1.21567 0.531779 1.98481" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="0" accept_root="1" near="0.1" far="250" aspect="1" fov="1.0472">
-          <Object name_suffix="0" base_name="Headlight_beacon" name_space="__global__" type="LightBeacon" pickable="0" visible="1" from="0 0 0" at="0 0 -1" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" light="Headlight"/>
+      <Object name_suffix="0" base_name="light" name_space="__global__" type="Light" pickable="0" visible="1" ambient="0.3 0.3 0.3 1" beacon="light_beacon" diffuse="1 1 1 1" lightType="point" on="1" shadow="0" shadowColor="0.1 0.1 0.1 1" shadowType="4096" specular="0.1 0.1 0.1 1">
+        <Object name_suffix="0" base_name="Headlight" name_space="__global__" type="Light" pickable="0" visible="1" ambient="0.3 0.3 0.3 1" beacon="Headlight_beacon" diffuse="1 1 1 1" lightType="point" on="1" shadow="0" shadowColor="0.1 0.1 0.1 1" shadowType="4096" specular="0.1 0.1 0.1 1">
+          <Object name_suffix="0" base_name="Default" name_space="__global__" type="Camera" pickable="0" visible="1" from="-0.562343 1.77737 2.56588" at="-0.342343 1.77737 3.53588" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" accept_root="1" near="0.1" far="250" aspect="1" fov="1.0472">
+            <Object name_suffix="0" base_name="Headlight_beacon" name_space="__global__" type="LightBeacon" pickable="0" visible="1" from="-1 1.5 2" at="-1 1.5 1" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" light="Headlight"/>
+          </Object>
         </Object>
+        <Object name_suffix="0" base_name="light_beacon" name_space="__global__" type="LightBeacon" pickable="0" visible="1" from="-5 5 0" at="-5 5 -1" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" light="light"/>
       </Object>
     </Object>
   </Objects>
-  <Rendering frustum_culling="1" occlusion_culling="0" two_sided="1"/>
+  <Rendering frustum_culling="0" occlusion_culling="0" two_sided="1"/>
   <Scripts>
     <Script name_suffix="0" base_name="Construction" name_space="__script__" type="Python" mobile="">
       <core>
@@ -18,8 +21,8 @@
 	
 	s = 0.03
 	d = 0.1
-	kit = VR.ConstructionKit()
-	at = kit.addAnchorType(s*0.1, [1,0,0])
+	VR.kit = VR.ConstructionKit()
+	at = VR.kit.addAnchorType(s*0.1, [1,0,0])
 	
 	r = VR.getRoot()
 	t28 = r.find('ShapeIndexedFaceSet.28')
@@ -30,21 +33,21 @@
 	
 	for t in [t4,t1,t19,t28,t29]:
 		t.setPickable(True)
-		kit.addObject(t)
+		VR.kit.addObject(t)
 	
-	kit.addObjectAnchor(t1, at, [-0.00122, -0.00065, 0.05019], d*0.3)
-	kit.addObjectAnchor(t1, at,[-0.00122,-0.00065,-0.05181], d*0.3)
-	kit.addObjectAnchor(t1, at,[-0.03472,-0.00065,0.01819],d*0.3)
-	kit.addObjectAnchor(t1, at,[-0.03472,-0.00065,-0.02181],d*0.3)
-	kit.addObjectAnchor(t1, at,[0.03228,-0.00065,0.01819],d*0.3)
-	kit.addObjectAnchor(t1, at,[0.03228,-0.00065,-0.02181],d*0.3)
+	VR.kit.addObjectAnchor(t1, at, [-0.00122, -0.00065, 0.05019], d*0.3)
+	VR.kit.addObjectAnchor(t1, at,[-0.00122,-0.00065,-0.05181], d*0.3)
+	VR.kit.addObjectAnchor(t1, at,[-0.03472,-0.00065,0.01819],d*0.3)
+	VR.kit.addObjectAnchor(t1, at,[-0.03472,-0.00065,-0.02181],d*0.3)
+	VR.kit.addObjectAnchor(t1, at,[0.03228,-0.00065,0.01819],d*0.3)
+	VR.kit.addObjectAnchor(t1, at,[0.03228,-0.00065,-0.02181],d*0.3)
 	
-	a1 = kit.addObjectAnchor(t28, at, [-0.00138, -0.00065, 0.10694], d*0.3)
-	a2 = kit.addObjectAnchor(t29, at,[-0.00266,-0.00032,-0.11346],d*0.3)
-	a3 = kit.addObjectAnchor(t19, at,[-0.11759,0.00111,0.02366],d*0.3)
-	a4 = kit.addObjectAnchor(t19, at,[-0.11759,0.00111,-0.01634],d*0.3)
-	a5 = kit.addObjectAnchor(t4, at,[0.1101,-0.00089,0.01699],d*0.3)
-	a6 = kit.addObjectAnchor(t4, at,[0.1101,-0.00089,-0.01968],d*0.3)
+	a1 = VR.kit.addObjectAnchor(t28, at, [-0.00138, -0.00065, 0.10694], d*0.3)
+	a2 = VR.kit.addObjectAnchor(t29, at,[-0.00266,-0.00032,-0.11346],d*0.3)
+	a3 = VR.kit.addObjectAnchor(t19, at,[-0.11759,0.00111,0.02366],d*0.3)
+	a4 = VR.kit.addObjectAnchor(t19, at,[-0.11759,0.00111,-0.01634],d*0.3)
+	a5 = VR.kit.addObjectAnchor(t4, at,[0.1101,-0.00089,0.01699],d*0.3)
+	a6 = VR.kit.addObjectAnchor(t4, at,[0.1101,-0.00089,-0.01968],d*0.3)
 	
 	pi = math.pi
 	for a in [a3,a4]:
@@ -55,6 +58,21 @@
 	a2.rotate(1,0,0, -pi*0.5)
 	
 </core>
+    </Script>
+    <Script name_suffix="0" base_name="Deconstruct" name_space="__script__" type="Python" mobile="">
+      <core>
+	import VR
+
+	dev.intersect()
+	i = dev.getIntersected()
+	p = i.getWorldFrom()
+	d = i.getWorldDir()
+	VR.kit.breakup(i)
+	i.setWorldFrom(p)
+	i.setWorldDir(d)
+	#dev.drag(i)
+</core>
+      <trig type="on_device" dev="flystick" state="Pressed" param="" key="2" name_suffix="3" base_name="trigger" name_space="__global__"/>
     </Script>
     <Script name_suffix="0" base_name="Script" name_space="__script__" type="Python" mobile="">
       <core>
@@ -110,6 +128,9 @@
 	
 	r.addChild(petar)
 	
+	
+	halter = VR.getRoot().find('halter')
+	halter.hide()
 	
 	VR.Construction()
 	
@@ -167,6 +188,7 @@
 			halter.animate(p, 2, 0, False)
 			
 </core>
+      <trig type="on_device" dev="flystick" state="Pressed" param="" key="1" name_suffix="2" base_name="trigger" name_space="__global__"/>
       <trig type="on_device" dev="mouse" state="Pressed" param="" key="0" name_suffix="7" base_name="trigger" name_space="__global__"/>
     </Script>
     <Script name_suffix="0" base_name="setCam" name_space="__script__" type="Python" mobile="">
@@ -174,14 +196,44 @@
 	import VR
 	
 	cam = VR.getRoot().find('Default')
-	print cam.getDir()
+	print cam.getFrom(), cam.getDir()
 	
-	pos = [2.3,1.23,-2.5]
-	dir = [1,0,0]
+	if not hasattr(VR, 'cpos'):
+		VR.cpos = 1
+		
+	pos = []
+	pos.append([1.5,1,-3.7]) # start
+	pos.append([3,1.12,1.3]) # prozess
+	pos.append([-0.6,1,1.5]) # kit
 	
-	cam.setPose(pos, dir, [0,1,0])
+	dir = []
+	dir.append([1,0,0]) # start
+	dir.append([0.3,0,0.96]) # prozess
+	dir.append([0.22,0,0.97]) # kit
+	
+	if dev:
+		if dev.getKey() == 3:
+			if VR.cpos &gt;= len(pos):
+				VR.cpos = 0
+			cam.setPose(pos[VR.cpos], dir[VR.cpos], [0,1,0])
+			VR.cpos += 1
+			return
+			
+	
+	cam.setPose(pos[0], dir[0], [0,1,0])
 </core>
-      <trig type="none" dev="" state="Pressed" param="" key="0" name_suffix="5" base_name="trigger" name_space="__global__"/>
+      <trig type="on_device" dev="flystick" state="Pressed" param="" key="3" name_suffix="10" base_name="trigger" name_space="__global__"/>
+      <trig type="on_scene_load" dev="" state="Pressed" param="" key="0" name_suffix="5" base_name="trigger" name_space="__global__"/>
+    </Script>
+    <Script name_suffix="0" base_name="setNavSpeed" name_space="__script__" type="Python" mobile="">
+      <core>
+	import VR
+	
+	fly.setSpeed(0.03,0.03)
+	
+</core>
+      <arg type="VRPyDeviceType" value="flystick" name_suffix="0" base_name="fly" name_space="setNavSpeed"/>
+      <trig type="on_scene_load" dev="" state="Pressed" param="" key="0" name_suffix="8" base_name="trigger" name_space="__global__"/>
     </Script>
     <Script name_suffix="0" base_name="wasserstrahlProzess" name_space="__script__" type="Python" mobile="">
       <core>
@@ -233,7 +285,7 @@
 	VR.p5.addPoint([2.269,0.53,1.9],[-1,0,0],[0,0,0],[0,1,0])
 	VR.p5.compute(30)
 	
-	s = 6
+	s = 2
 				
 	obj.animate(VR.p1, s, 0, False)
 	obj.animate(VR.p2, s, s, False)
@@ -245,14 +297,15 @@
 	VR.pp.addPoint([-9.16, 7.6, 2.2],[0,-1,0],[0,0,0],[1,0,0])
 	VR.pp.addPoint([-9.16, 7.6, 2.18],[0,-1,0],[0,0,0],[1,0,0])
 	VR.pp.compute(30)
-	platte.animate(VR.pp, 2, 5*s, False)
+	platte.animate(VR.pp, s*0.5, 5*s, False)
 	
 </core>
       <trig type="on_device" dev="mouse" state="Pressed" param="" key="0" name_suffix="4" base_name="trigger" name_space="__global__"/>
+      <trig type="on_device" dev="flystick" state="Pressed" param="" key="4" name_suffix="9" base_name="trigger" name_space="__global__"/>
     </Script>
   </Scripts>
   <Sockets/>
   <Background color="0.6 0.6 0.6" path="" type="0"/>
-  <Navigation active="Orbit"/>
+  <Navigation active="FlyWalk"/>
   <Materials/>
 </Scene>
