@@ -3,7 +3,7 @@
   <Objects>
     <Object name_suffix="0" base_name="Root" name_space="__global__" type="Object" pickable="0" visible="1">
       <Object name_suffix="0" base_name="Headlight" name_space="__global__" type="Light" pickable="0" visible="1" ambient="0.3 0.3 0.3 1" beacon="Headlight_beacon" diffuse="1 1 1 1" lightType="point" on="1" shadow="0" shadowColor="0.1 0.1 0.1 1" shadowType="4096" specular="0.1 0.1 0.1 1">
-        <Object name_suffix="0" base_name="Default" name_space="__global__" type="Camera" pickable="0" visible="1" from="0.437453 2.24759 0.433995" at="-0.914482 0.509475 2.06874" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="0" accept_root="1" near="0.1" far="250" aspect="1" fov="1.0472">
+        <Object name_suffix="0" base_name="Default" name_space="__global__" type="Camera" pickable="0" visible="1" from="-0.941501 0.812383 1.78803" at="-1.21567 0.531779 1.98481" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="0" accept_root="1" near="0.1" far="250" aspect="1" fov="1.0472">
           <Object name_suffix="0" base_name="Headlight_beacon" name_space="__global__" type="LightBeacon" pickable="0" visible="1" from="0 0 0" at="0 0 -1" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" light="Headlight"/>
         </Object>
       </Object>
@@ -14,8 +14,9 @@
     <Script name_suffix="0" base_name="Construction" name_space="__script__" type="Python" mobile="">
       <core>
 	import VR
+	import math
 	
-	s = 0.1
+	s = 0.03
 	d = 0.1
 	kit = VR.ConstructionKit()
 	at = kit.addAnchorType(s*0.1, [1,0,0])
@@ -31,22 +32,47 @@
 		t.setPickable(True)
 		kit.addObject(t)
 	
-	kit.addObjectAnchor(t28, at, [-0.00138, -0.00065, 0.10694], d*0.3)
 	kit.addObjectAnchor(t1, at, [-0.00122, -0.00065, 0.05019], d*0.3)
-	
 	kit.addObjectAnchor(t1, at,[-0.00122,-0.00065,-0.05181], d*0.3)
-	kit.addObjectAnchor(t29, at,[-0.00266,-0.00032,-0.11346],d*0.3)
-	
 	kit.addObjectAnchor(t1, at,[-0.03472,-0.00065,0.01819],d*0.3)
-	kit.addObjectAnchor(t19, at,[-0.11759,0.00111,0.02366],d*0.3)
 	kit.addObjectAnchor(t1, at,[-0.03472,-0.00065,-0.02181],d*0.3)
-	kit.addObjectAnchor(t19, at,[-0.11759,0.00111,-0.01634],d*0.3)
-	
 	kit.addObjectAnchor(t1, at,[0.03228,-0.00065,0.01819],d*0.3)
-	kit.addObjectAnchor(t4, at,[0.1101,-0.00089,0.01699],d*0.3)
 	kit.addObjectAnchor(t1, at,[0.03228,-0.00065,-0.02181],d*0.3)
-	kit.addObjectAnchor(t4, at,[0.1101,-0.00089,-0.01968],d*0.3)
 	
+	a1 = kit.addObjectAnchor(t28, at, [-0.00138, -0.00065, 0.10694], d*0.3)
+	a2 = kit.addObjectAnchor(t29, at,[-0.00266,-0.00032,-0.11346],d*0.3)
+	a3 = kit.addObjectAnchor(t19, at,[-0.11759,0.00111,0.02366],d*0.3)
+	a4 = kit.addObjectAnchor(t19, at,[-0.11759,0.00111,-0.01634],d*0.3)
+	a5 = kit.addObjectAnchor(t4, at,[0.1101,-0.00089,0.01699],d*0.3)
+	a6 = kit.addObjectAnchor(t4, at,[0.1101,-0.00089,-0.01968],d*0.3)
+	
+	pi = math.pi
+	for a in [a3,a4]:
+		a.rotate(0,0,1, pi*0.5)
+	for a in [a5,a6]:
+		a.rotate(0,0,1, -pi*0.5)
+	a1.rotate(1,0,0, pi*2/3.0)
+	a2.rotate(1,0,0, -pi*0.5)
+	
+</core>
+    </Script>
+    <Script name_suffix="0" base_name="Script" name_space="__script__" type="Python" mobile="">
+      <core>
+	import VR
+	
+	knoten = VR.getRoot()
+	modell1 = knoten.find('ShapeIndexedFaceSet.87')
+	modell2 = knoten.find('ShapeIndexedFaceSet.71')
+	modell3 = knoten.find('ShapeIndexedFaceSet.26')
+	modell4 = knoten.find('ShapeIndexedFaceSet.53')
+	modell5 = knoten.find('ShapeIndexedFaceSet.121')
+	stift1 = knoten.find('simplepen_Tube0_0')
+	stift2 = knoten.find('tap_pen_Cylinder.1')
+	stift3 = knoten.find('pencil_Cylinder.2')
+	stift4 = knoten.find('pen_Cylinder0_1')
+	
+	for k in [modell1,modell2,modell3,modell4,modell5,stift1,stift2,stift3,stift4]:
+		k.setPickable(True)
 </core>
     </Script>
     <Script name_suffix="0" base_name="init" name_space="__script__" type="Python" mobile="">
@@ -60,13 +86,13 @@
 	penha = VR.loadGeometry('models/penha_flach.dae', True)
 	penhazwei = VR.loadGeometry('models/penha_flach2.dae', True)
 	
-	petar = VR.loadGeometry('models/lernfabrik-ver10.dae', True)
+	petar = VR.loadGeometry('models/lernfabrik-ver17.dae', True)
 	
 	werkstatt.setPose([0,0,0],[0,-1,0],[0,0,1])
 	wasserstrahl.setPose([2.5,0.53,2],[0,-1,0],[0,0,-1])
 	penhazwei.setPose([2.3,0.55,1.9],[0,-1,0],[0,0,1])
 	#penha.setPose([-1.1,0.53,2],[0,-1,0],[0,0,1])
-	petar.setPose([5.3,0,5],[0,-1,0],[0,0,1])
+	petar.setPose([1.13,-0.09,-5.13],[0,-1,0],[0,0,1])
 	penha.setFrom([-1.1,0.53,2])
 	
 	
@@ -83,6 +109,9 @@
 	r.addChild(penhazwei)
 	
 	r.addChild(petar)
+	
+	
+	VR.Construction()
 	
 </core>
       <trig type="on_scene_load" dev="" state="Pressed" param="" key="0" name_suffix="0" base_name="trigger" name_space="__global__"/>
@@ -108,7 +137,53 @@
 </core>
       <trig type="on_device" dev="mouse" state="Pressed" param="" key="0" name_suffix="1" base_name="trigger" name_space="__global__"/>
     </Script>
-    <Script name_suffix="0" base_name="path" name_space="__script__" type="Python" mobile="">
+    <Script name_suffix="0" base_name="productRotate" name_space="__script__" type="Python" mobile="">
+      <core>
+	import VR
+	
+	halter = VR.getRoot().find('halter')
+	
+	if halter.isVisible():
+		halter.rotate(0,0,1,0.01)
+</core>
+      <trig type="on_timeout" dev="" state="Pressed" param="10" key="0" name_suffix="6" base_name="trigger" name_space="__global__"/>
+    </Script>
+    <Script name_suffix="0" base_name="productVisibility" name_space="__script__" type="Python" mobile="">
+      <core>
+	import VR
+	
+	halter = VR.getRoot().find('halter')
+	
+	if dev:
+		print dev
+		if halter.isVisible():
+			halter.hide()
+		else:
+			halter.show()
+			p1 = [-1.15, 2.26, 0.71]
+			p2 = [-1.15, 2.26, 0.8]
+			p = VR.Path()
+			p.set(p1, [0,0,1], p2, [0,0,1], 80)
+			halter.animate(p, 2, 0, False)
+			
+</core>
+      <trig type="on_device" dev="mouse" state="Pressed" param="" key="0" name_suffix="7" base_name="trigger" name_space="__global__"/>
+    </Script>
+    <Script name_suffix="0" base_name="setCam" name_space="__script__" type="Python" mobile="">
+      <core>
+	import VR
+	
+	cam = VR.getRoot().find('Default')
+	print cam.getDir()
+	
+	pos = [2.3,1.23,-2.5]
+	dir = [1,0,0]
+	
+	cam.setPose(pos, dir, [0,1,0])
+</core>
+      <trig type="none" dev="" state="Pressed" param="" key="0" name_suffix="5" base_name="trigger" name_space="__global__"/>
+    </Script>
+    <Script name_suffix="0" base_name="wasserstrahlProzess" name_space="__script__" type="Python" mobile="">
       <core>
 	import VR
 	
@@ -173,7 +248,6 @@
 	platte.animate(VR.pp, 2, 5*s, False)
 	
 </core>
-      <trig type="on_scene_load" dev="" state="Pressed" param="" key="0" name_suffix="3" base_name="trigger" name_space="__global__"/>
       <trig type="on_device" dev="mouse" state="Pressed" param="" key="0" name_suffix="4" base_name="trigger" name_space="__global__"/>
     </Script>
   </Scripts>
